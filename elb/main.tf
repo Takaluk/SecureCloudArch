@@ -141,12 +141,12 @@ resource "aws_lb_target_group" "app_lb_tg" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "app_lb_tg_attach_11" {
+resource "aws_lb_target_group_attachment" "app_lb_tg_attach_12" {
   target_group_arn = aws_lb_target_group.app_lb_tg.arn
   target_id        = var.app12_ec2_id
   port             = 8080
 }
-resource "aws_lb_target_group_attachment" "app_lb_tg_attach_21" {
+resource "aws_lb_target_group_attachment" "app_lb_tg_attach_32" {
   target_group_arn = aws_lb_target_group.app_lb_tg.arn
   target_id        = var.app32_ec2_id
   port             = 8080
@@ -189,13 +189,33 @@ resource "aws_lb" "app_elb" {
   }
 }
 
+# 내부망 HTTP (8080) 리스너 설정
 resource "aws_lb_listener" "app_listener_8080" {
   load_balancer_arn = aws_lb.app_elb.arn
   port              = "8080"
   protocol          = "HTTP"
 
   default_action {
-    type = "forward"
-    target_group_arn = aws_lb_target_group.app_lb_tg.arn
+    type = "redirect"
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"  # 영구 리디렉션
+    }
   }
 }
+
+# 내부망 HTTPS (443) 리스너 설정
+resource "aws_lb_listener" "app_listener_443" {
+  load_balancer_arn = aws_lb.app_elb.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"  # TLS 1.2 및 1.3 사용
+  certificate_arn   = data.aws_acm_certificate.server_cert.arn  # ACM 인증서 사용
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.app_lb_tg.arn  # 트래픽을 내부 타겟 그룹으로 포워딩
+  }
+}
+
