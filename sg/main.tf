@@ -136,7 +136,6 @@ module "db_sg" {
       cidr_blocks = "0.0.0.0/0"
     },
     {
-      rule        = "all-icmp"
       from_port   = 3306
       to_port     = 3306
       rule    = "ssh-tcp"
