@@ -96,15 +96,27 @@ module "app_sg" {
   use_name_prefix = false # 이름이 자동으로 변경되지 않도록
 }
 
+module "efs-sg" {
+  source = "terraform-aws-modules/security-group/aws"
+
+  name        = "efs-sg"
+  description = "Security group for EFS(Elastic File System)"
+
 module "db_sg" {
   source = "terraform-aws-modules/security-group/aws"
 
   name        = "db-sg"
   description = "db-sg"
+  
   vpc_id      = var.vpc_id
 
   ingress_with_cidr_blocks = [
     {
+      rule        = "ssh-tcp"
+      cidr_blocks = "0.0.0.0/0"
+    },
+    {
+      rule        = "all-icmp"
       from_port   = 3306
       to_port     = 3306
       rule    = "ssh-tcp"
@@ -117,5 +129,6 @@ module "db_sg" {
       cidr_blocks = "0.0.0.0/0"
     }
   ]
+  use_name_prefix = false # 이름이 자동으로 변경되지 않도록
   use_name_prefix = false  # 이름이 자동으로 변경되지 않도록
 }
