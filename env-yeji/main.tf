@@ -35,11 +35,24 @@ module "yeji_ec2" {
   app_sg_id          = module.yeji_sg.app_sg_id
 }
 
+module "yeji_elb" {
+  source             = "../elb"
+  vpc_id             = module.yeji_vpc.vpc_id
+  public_subnets_id  = module.yeji_vpc.public_subnets_id
+  web11_ec2_id       = module.yeji_ec2.web11_ec2_id
+  web31_ec2_id       = module.yeji_ec2.web31_ec2_id
+  private_subnets_id = module.yeji_vpc.private_subnets_id
+  app12_ec2_id       = module.yeji_ec2.app12_ec2_id
+  app32_ec2_id       = module.yeji_ec2.app32_ec2_id
+
+  web_sg_id = module.yeji_sg.web_sg_id
+}
+
 module "yeji_efs" {
   source = "../efs"
 
   vpc_id              = module.yeji_vpc.vpc_id
   public_subnets_ids  = module.yeji_vpc.public_subnets_id
   private_subnets_ids = module.yeji_vpc.private_subnets_id
+  security_group_id = module.yeji_sg.security_group_id
 }
-
