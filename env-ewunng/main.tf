@@ -41,12 +41,40 @@ module "ewunng_s3" {
   kms_master_key_id = "arn:aws:kms:region:account-id:key/key-id"
 }
 
-module "ewunng_rds" {
-  source             = "../rds"
+resource "aws_db_subnet_group" "db_subnet_group" {
+  name = "db-subnet-group"
+  subnet_ids = module.ewunng_vpc.private_subnets_id
+}
+
+module "carbon_emission_rds" {
+  source             = "../rds/carbon_emission"
   env_name           = module.ewunng_vpc.env_name
   private_subnets    = module.ewunng_vpc.private_subnets_id
   db_sg_id           = module.ewunng_sg.db_sg_id
-  db_name            = "team2db"
+  db_subnet_group_id = aws_db_subnet_group.db_subnet_group.id
+  db_name            = "carbon_emission_db"
+  db_master_username = "admin"
+  db_master_password = "project1234"
+}
+
+module "supplier_rds" {
+  source             = "../rds/supplier"
+  env_name           = module.ewunng_vpc.env_name
+  private_subnets    = module.ewunng_vpc.private_subnets_id
+  db_sg_id           = module.ewunng_sg.db_sg_id
+  db_subnet_group_id = aws_db_subnet_group.db_subnet_group.id
+  db_name            = "supplier_management_db"
+  db_master_username = "admin"
+  db_master_password = "project1234"
+}
+
+module "app_user_rds" {
+  source             = "../rds/app_user"
+  env_name           = module.ewunng_vpc.env_name
+  private_subnets    = module.ewunng_vpc.private_subnets_id
+  db_sg_id           = module.ewunng_sg.db_sg_id
+  db_subnet_group_id = aws_db_subnet_group.db_subnet_group.id
+  db_name            = "app_user_management_db"
   db_master_username = "admin"
   db_master_password = "project1234"
 }

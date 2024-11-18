@@ -16,3 +16,6 @@ variable "db_master_username" {
 variable "db_master_password" {
   type = string
 }
+variable "db_subnet_group_id" {
+  type = string
+}
