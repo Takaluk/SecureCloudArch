@@ -54,5 +54,5 @@ module "yeji_efs" {
   vpc_id              = module.yeji_vpc.vpc_id
   public_subnets_ids  = module.yeji_vpc.public_subnets_id
   private_subnets_ids = module.yeji_vpc.private_subnets_id
-  security_group_id = module.yeji_sg.security_group_id
+  efs_sg_id   = module.yeji_sg.efs_sg_id
 }

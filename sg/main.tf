@@ -96,7 +96,7 @@ module "app_sg" {
   use_name_prefix = false # 이름이 자동으로 변경되지 않도록
 }
 
-module "efs-sg" {
+module "efs_sg" {
   source = "terraform-aws-modules/security-group/aws"
 
   name        = "efs-sg"

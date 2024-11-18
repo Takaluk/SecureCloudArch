@@ -47,7 +47,7 @@ module "efs" {
     }
   }
   security_group_description = "EFS security group"
-  security_group_vpc_id      = var.security_group_id
+  security_group_vpc_id      = var.vpc_id
 
   # 보안 그룹 규칙을 private subnet CIDR 블록으로 설정
   security_group_rules = {
