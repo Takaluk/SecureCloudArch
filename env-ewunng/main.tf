@@ -42,7 +42,7 @@ module "ewunng_s3" {
 }
 
 resource "aws_db_subnet_group" "db_subnet_group" {
-  name = "db-subnet-group"
+  name       = "db-subnet-group"
   subnet_ids = module.ewunng_vpc.private_subnets_id
 }
 
@@ -53,8 +53,8 @@ module "carbon_emission_rds" {
   db_sg_id           = module.ewunng_sg.db_sg_id
   db_subnet_group_id = aws_db_subnet_group.db_subnet_group.id
   db_name            = "carbon_emission_db"
-  db_master_username = "admin"
-  db_master_password = "project1234"
+  db_master_username = jsondecode(data.aws_secretsmanager_secret_version.db_credentials_version.secret_string)["db_master_username"]
+  db_master_password = jsondecode(data.aws_secretsmanager_secret_version.db_credentials_version.secret_string)["db_master_password"]
 }
 
 module "supplier_rds" {
@@ -64,8 +64,8 @@ module "supplier_rds" {
   db_sg_id           = module.ewunng_sg.db_sg_id
   db_subnet_group_id = aws_db_subnet_group.db_subnet_group.id
   db_name            = "supplier_management_db"
-  db_master_username = "admin"
-  db_master_password = "project1234"
+  db_master_username = jsondecode(data.aws_secretsmanager_secret_version.db_credentials_version.secret_string)["db_master_username"]
+  db_master_password = jsondecode(data.aws_secretsmanager_secret_version.db_credentials_version.secret_string)["db_master_password"]
 }
 
 module "app_user_rds" {
@@ -75,6 +75,14 @@ module "app_user_rds" {
   db_sg_id           = module.ewunng_sg.db_sg_id
   db_subnet_group_id = aws_db_subnet_group.db_subnet_group.id
   db_name            = "app_user_management_db"
-  db_master_username = "admin"
-  db_master_password = "project1234"
+  db_master_username = jsondecode(data.aws_secretsmanager_secret_version.db_credentials_version.secret_string)["db_master_username"]
+  db_master_password = jsondecode(data.aws_secretsmanager_secret_version.db_credentials_version.secret_string)["db_master_password"]
+}
+
+data "aws_secretsmanager_secret" "db_credentials" {
+  name        = "db-credentials"
+}
+
+data "aws_secretsmanager_secret_version" "db_credentials_version" {
+  secret_id = data.aws_secretsmanager_secret.db_credentials.id
 }
