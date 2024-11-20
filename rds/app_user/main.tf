@@ -8,6 +8,7 @@ resource "aws_db_instance" "app-user-db" {
   vpc_security_group_ids = [var.db_sg_id]
   username = var.db_master_username
   password = var.db_master_password
+  skip_final_snapshot    = true
 }
 
 
