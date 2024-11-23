@@ -1,5 +1,5 @@
-resource "aws_db_instance" "app-user-db" {
-  identifier     = "${var.env_name}-app-user-db-instance"
+resource "aws_db_instance" "user-db" {
+  identifier     = "${var.env_name}-user-db-instance"
   engine                 = "mariadb"
   engine_version         = "10.11"
   instance_class         = "db.t3.micro"
