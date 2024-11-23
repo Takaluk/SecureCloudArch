@@ -178,7 +178,7 @@ resource "aws_security_group" "auth-service_elb_sg" {
 
 resource "aws_lb" "auth-service_elb" {
   name               = "auth-service-elb-tf"
-  load_balancer_type = "auth-servicelication"
+  load_balancer_type = "application"
   internal           = true
   security_groups    = [aws_security_group.auth-service_elb_sg.id]
   subnets            = [var.private_subnets_id[0], var.private_subnets_id[1]]
@@ -274,7 +274,7 @@ resource "aws_security_group" "role-service_elb_sg" {
 
 resource "aws_lb" "role-service_elb" {
   name               = "role-service-elb-tf"
-  load_balancer_type = "role-servicelication"
+  load_balancer_type = "application"
   internal           = true
   security_groups    = [aws_security_group.role-service_elb_sg.id]
   subnets            = [var.private_subnets_id[0], var.private_subnets_id[1]]

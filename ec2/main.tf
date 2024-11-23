@@ -48,7 +48,7 @@ module "web_instance" {
   }
 }
 
-module "app_instance" {
+module "auth_service_instance" {
   source = "terraform-aws-modules/ec2-instance/aws"
 
   name                        = "auth-service-instance"
@@ -65,7 +65,7 @@ module "app_instance" {
   }
 }
 
-module "app_instance" {
+module "role_service_instance" {
   source = "terraform-aws-modules/ec2-instance/aws"
 
   name                        = "role-service-instance"
