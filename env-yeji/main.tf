@@ -60,3 +60,9 @@ module "yeji_efs" {
 module "yeji_cloudwatch" {
   source = "../cloudwatch"
 }
+
+module "yeji_cloudtrail" {
+  source                    = "../cloudtrail"
+  cloudtrail_log_group_name = module.yeji_cloudwatch.cloudtrail_log_group_name
+  cloudtrail_sns_topic_arn  = module.yeji_cloudwatch.cloudtrail_sns_topic_arn
+}

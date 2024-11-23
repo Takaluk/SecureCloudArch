@@ -134,6 +134,21 @@ resource "aws_cloudwatch_metric_alarm" "waf_shield_alarm" {
   alarm_actions = [module.waf_shield_notifications.topic_arn]
 }
 
+resource "aws_cloudwatch_metric_alarm" "cloudtrail_alarm" {
+  alarm_name          = "CloudTrailAlarm"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = 1
+  metric_name         = "SuspiciousEventCount"
+  namespace           = "CloudTrailMetrics"
+  period              = 300
+  statistic           = "SampleCount"
+  threshold           = 1
+  alarm_description   = "Triggered by specific CloudTrail events"
+
+  alarm_actions = [module.cloudtrail_notifications.topic_arn]
+}
+
+
 resource "aws_sns_topic_subscription" "ec2_event_email_subscription" {
   topic_arn = module.ec2_notifications.topic_arn
   protocol  = "email"
@@ -180,4 +195,10 @@ resource "aws_sns_topic_subscription" "waf_shield_event_email_subscription" {
   topic_arn = module.waf_shield_notifications.topic_arn
   protocol  = "email"
   endpoint  = "julysnowflake@naver.com"
+}
+
+resource "aws_sns_topic_subscription" "cloudtrail_event_email_subscription" {
+  topic_arn = module.cloudtrail_notifications.topic_arn
+  protocol  = "email"
+  endpoint  = "julysnowflake@naver.com" 
 }

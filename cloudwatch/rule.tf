@@ -148,3 +148,20 @@ resource "aws_cloudwatch_event_target" "waf_shield_target" {
   rule = aws_cloudwatch_event_rule.waf_shield_events.name
   arn  = module.waf_shield_notifications.topic_arn
 }
+
+# event_rule - cloudtrail_API_call_events
+resource "aws_cloudwatch_event_rule" "cloudtrail_events" {
+  name        = "CloudTrailEventsRule"
+  description = "Monitor CloudTrail suspicious events"
+  event_pattern = <<PATTERN
+{
+  "source": ["aws.cloudtrail"],
+  "detail-type": ["AWS API Call via CloudTrail"]
+}
+PATTERN
+}
+
+resource "aws_cloudwatch_event_target" "cloudtrail_target" {
+  rule = aws_cloudwatch_event_rule.cloudtrail_events.name
+  arn  = module.cloudtrail_notifications.topic_arn
+}
