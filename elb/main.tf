@@ -239,12 +239,12 @@ resource "aws_lb_target_group" "role-service_lb_tg" {
 
 resource "aws_lb_target_group_attachment" "role-service_lb_tg_attach_12" {
   target_group_arn = aws_lb_target_group.role-service_lb_tg.arn
-  target_id        = var.app12_ec2_id
+  target_id        = var.app13_ec2_id
   port             = 8080
 }
 resource "aws_lb_target_group_attachment" "role-service_lb_tg_attach_32" {
   target_group_arn = aws_lb_target_group.role-service_lb_tg.arn
-  target_id        = var.app32_ec2_id
+  target_id        = var.app33_ec2_id
   port             = 8080
 }
 
@@ -277,7 +277,7 @@ resource "aws_lb" "role-service_elb" {
   load_balancer_type = "role-servicelication"
   internal           = true
   security_groups    = [aws_security_group.role-service_elb_sg.id]
-  subnets            = [var.private_subnets_id[2], var.private_subnets_id[3]]
+  subnets            = [var.private_subnets_id[0], var.private_subnets_id[1]]
   ip_address_type    = "ipv4"
 
   tags = {
