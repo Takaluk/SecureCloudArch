@@ -1,4 +1,4 @@
-module "kms" {
+module "efs_kms" {
   source = "terraform-aws-modules/kms/aws"
 
   key_usage   = "ENCRYPT_DECRYPT"
@@ -33,9 +33,9 @@ module "efs" {
 
   # File system
   name           = "project_efs"
-  creation_token = "efs-token-for-project"
+  creation_token = "efs-token-for-project" 
   encrypted      = true
-  kms_key_arn    = module.kms.key_arn
+  kms_key_arn    = module.efs_kms.key_arn
 
   # Mount targets / security group
   mount_targets = {
@@ -54,6 +54,9 @@ module "efs" {
     vpc = {
       # relying on the defaults provided for EFS/NFS (2049/TCP + ingress)
       description = "NFS ingress from VPC private subnets"
+      protocol = "tcp"
+      from_port = 2049
+      to_port = 2049
       cidr_blocks = [for subnet in data.aws_subnet.private_subnets : subnet.cidr_block]
     }
   }
