@@ -219,9 +219,9 @@ resource "aws_lb_listener" "auth-service_listener_443" {
   }
 }
 
-# internal auth-service facing lb
-resource "aws_lb_target_group" "auth-service_lb_tg" {
-  name     = "auth-service-lb-tg"
+# internal role-service facing lb
+resource "aws_lb_target_group" "role-service_lb_tg" {
+  name     = "role-service-lb-tg"
   port     = 8080
   protocol = "HTTP"
   vpc_id   = var.vpc_id
@@ -237,20 +237,20 @@ resource "aws_lb_target_group" "auth-service_lb_tg" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "auth-service_lb_tg_attach_12" {
-  target_group_arn = aws_lb_target_group.auth-service_lb_tg.arn
+resource "aws_lb_target_group_attachment" "role-service_lb_tg_attach_12" {
+  target_group_arn = aws_lb_target_group.role-service_lb_tg.arn
   target_id        = var.app12_ec2_id
   port             = 8080
 }
-resource "aws_lb_target_group_attachment" "auth-service_lb_tg_attach_32" {
-  target_group_arn = aws_lb_target_group.auth-service_lb_tg.arn
+resource "aws_lb_target_group_attachment" "role-service_lb_tg_attach_32" {
+  target_group_arn = aws_lb_target_group.role-service_lb_tg.arn
   target_id        = var.app32_ec2_id
   port             = 8080
 }
 
-resource "aws_security_group" "auth-service_elb_sg" {
-  name        = "auth-service-elb-sg"
-  description = "auth-service-elb-sg"
+resource "aws_security_group" "role-service_elb_sg" {
+  name        = "role-service-elb-sg"
+  description = "role-service-elb-sg"
   vpc_id      = var.vpc_id
 
   ingress {
@@ -268,26 +268,26 @@ resource "aws_security_group" "auth-service_elb_sg" {
   }
 
   tags = {
-    "Name" = "auth-service-elb-sg"
+    "Name" = "role-service-elb-sg"
   }
 }
 
-resource "aws_lb" "auth-service_elb" {
-  name               = "auth-service-elb-tf"
-  load_balancer_type = "auth-servicelication"
+resource "aws_lb" "role-service_elb" {
+  name               = "role-service-elb-tf"
+  load_balancer_type = "role-servicelication"
   internal           = true
-  security_groups    = [aws_security_group.auth-service_elb_sg.id]
+  security_groups    = [aws_security_group.role-service_elb_sg.id]
   subnets            = [var.private_subnets_id[0], var.private_subnets_id[1]]
   ip_address_type    = "ipv4"
 
   tags = {
-    Name = "auth-service-elb"
+    Name = "role-service-elb"
   }
 }
 
 # 내부망 HTTP (8080) 리스너 설정
-resource "aws_lb_listener" "auth-service_listener_8080" {
-  load_balancer_arn = aws_lb.auth-service_elb.arn
+resource "aws_lb_listener" "role-service_listener_8080" {
+  load_balancer_arn = aws_lb.role-service_elb.arn
   port              = "8080"
   protocol          = "HTTP"
 
@@ -302,8 +302,8 @@ resource "aws_lb_listener" "auth-service_listener_8080" {
 }
 
 # 내부망 HTTPS (443) 리스너 설정
-resource "aws_lb_listener" "auth-service_listener_443" {
-  load_balancer_arn = aws_lb.auth-service_elb.arn
+resource "aws_lb_listener" "role-service_listener_443" {
+  load_balancer_arn = aws_lb.role-service_elb.arn
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"  # TLS 1.2 및 1.3 사용
@@ -311,6 +311,6 @@ resource "aws_lb_listener" "auth-service_listener_443" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.auth-service_lb_tg.arn  # 트래픽을 내부 타겟 그룹으로 포워딩
+    target_group_arn = aws_lb_target_group.role-service_lb_tg.arn  # 트래픽을 내부 타겟 그룹으로 포워딩
   }
 }
