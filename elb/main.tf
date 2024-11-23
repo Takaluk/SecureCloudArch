@@ -277,7 +277,7 @@ resource "aws_lb" "role-service_elb" {
   load_balancer_type = "role-servicelication"
   internal           = true
   security_groups    = [aws_security_group.role-service_elb_sg.id]
-  subnets            = [var.private_subnets_id[0], var.private_subnets_id[1]]
+  subnets            = [var.private_subnets_id[2], var.private_subnets_id[3]]
   ip_address_type    = "ipv4"
 
   tags = {
