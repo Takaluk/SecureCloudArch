@@ -23,7 +23,12 @@ variable "app12_ec2_id" {
 variable "app32_ec2_id" {
   type = string
 }
-
+variable "app13_ec2_id" {
+  type = string
+}
+variable "app33_ec2_id" {
+  type = string
+}
 variable "web_sg_id" {
   type = string
 }
