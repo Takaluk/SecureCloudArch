@@ -34,8 +34,8 @@ module "nat_instance" {
 module "web_instance" {
   source = "terraform-aws-modules/ec2-instance/aws"
 
-  name                        = "web-instance"
-  ami                         = "ami-01f16b483e1b41448"
+  name                        = "user-management-web-instance"
+  ami                         = "ami-0fb3f8bb7e2b27830"
   instance_type               = "t2.micro"
   key_name                    = "Web-Key"
   monitoring                  = true
@@ -44,21 +44,38 @@ module "web_instance" {
   subnet_id                   = var.private_subnets_id[count.index]
   associate_public_ip_address = true
   tags = {
-    Name = "web-instance"
+    Name = "user-management-web-instance"
   }
 }
 
-module "app_instance" {
+module "auth_service_instance" {
   source = "terraform-aws-modules/ec2-instance/aws"
 
-  name                        = "app-instance"
+  name                        = "auth-service-instance"
   ami                         = "ami-01f16b483e1b41448"
   instance_type               = "t2.micro"
   key_name                    = "App-Key"
   monitoring                  = true
   vpc_security_group_ids      = [var.app_sg_id]
   count                       = 2
-  subnet_id                   = var.private_subnets_id[count.index + 2] # 위 vpc 모듈에서 지정함
+  subnet_id                   = var.private_subnets_id[count.index + 2]
+  associate_public_ip_address = true
+  tags = {
+    Name = "app-instance"
+  }
+}
+
+module "role_service_instance" {
+  source = "terraform-aws-modules/ec2-instance/aws"
+
+  name                        = "role-service-instance"
+  ami                         = "ami-01f16b483e1b41448"
+  instance_type               = "t2.micro"
+  key_name                    = "App-Key"
+  monitoring                  = true
+  vpc_security_group_ids      = [var.app_sg_id]
+  count                       = 2
+  subnet_id                   = var.private_subnets_id[count.index + 4]
   associate_public_ip_address = true
   tags = {
     Name = "app-instance"
