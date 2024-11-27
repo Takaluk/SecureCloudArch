@@ -29,6 +29,19 @@ variable "app13_ec2_id" {
 variable "app33_ec2_id" {
   type = string
 }
+variable "web14_ec2_id" {
+  type = string
+}
+variable "web34_ec2_id" {
+  type = string
+}
+variable "app15_ec2_id" {
+  type = string
+}
+variable "app35_ec2_id" {
+  type = string
+}
+
 variable "web_sg_id" {
   type = string
 }

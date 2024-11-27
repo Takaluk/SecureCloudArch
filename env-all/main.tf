@@ -98,6 +98,10 @@ module "project_elb" {
   app32_ec2_id       = module.project_ec2.app32_ec2_id
   app13_ec2_id       = module.project_ec2.app13_ec2_id
   app33_ec2_id       = module.project_ec2.app33_ec2_id
+  web14_ec2_id       = module.project_ec2.web14_ec2_id
+  web34_ec2_id       = module.project_ec2.web34_ec2_id
+  app15_ec2_id       = module.project_ec2.app15_ec2_id
+  app35_ec2_id       = module.project_ec2.app35_ec2_id
   web_sg_id          = module.project_sg.web_sg_id
 }
 

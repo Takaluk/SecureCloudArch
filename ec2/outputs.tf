@@ -24,3 +24,16 @@ output "app33_ec2_id" {
   value = module.role_service_instance[1].id
 }
 
+output "web14_ec2_id"{
+  value = module.partner_web_instance[0].id
+}
+output "web34_ec2_id" {
+  value = module.partner_web_instance[1].id
+}
+
+output "app15_ec2_id"{
+  value = module.carbon_service_instance[0].id
+}
+output "app35_ec2_id" {
+  value = module.carbon_service_instance[1].id
+}
