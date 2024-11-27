@@ -1,5 +1,5 @@
-resource "aws_db_instance" "supplier-db" {
-  identifier     = "${var.env_name}-supplier-db-instance"
+resource "aws_db_instance" "partner-db" {
+  identifier     = "${var.env_name}-partner-db-instance"
   engine                 = "mariadb"
   engine_version         = "10.11"
   instance_class         = "db.t3.micro"

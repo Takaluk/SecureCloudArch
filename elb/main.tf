@@ -233,6 +233,7 @@ resource "aws_lb_target_group" "role-service_lb_tg" {
 
   health_check {
     path    = "/api/roles/healthcheck"
+
     matcher = "200"
   }
 }

@@ -45,3 +45,9 @@ module "waf_shield_notifications" {
 
   name  = "waf_shield_notifications"
 }
+
+module "cloudtrail_notifications" {
+  source  = "terraform-aws-modules/sns/aws"
+
+  name  = "cloudtrail_notifications"
+}
