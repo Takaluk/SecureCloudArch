@@ -136,7 +136,7 @@ resource "aws_lb_target_group" "auth-service_lb_tg" {
   }
 
   health_check {
-    path    = "/healthcheck"
+    path    = "/api/auth/healthcheck"
     matcher = "200"
   }
 }
@@ -178,7 +178,7 @@ resource "aws_security_group" "auth-service_elb_sg" {
 
 resource "aws_lb" "auth-service_elb" {
   name               = "auth-service-elb-tf"
-  load_balancer_type = "auth-servicelication"
+  load_balancer_type = "application"
   internal           = true
   security_groups    = [aws_security_group.auth-service_elb_sg.id]
   subnets            = [var.private_subnets_id[0], var.private_subnets_id[1]]
@@ -232,7 +232,8 @@ resource "aws_lb_target_group" "role-service_lb_tg" {
   }
 
   health_check {
-    path    = "/healthcheck"
+
+    path    = "/api/roles/healthcheck"
     matcher = "200"
   }
 }
@@ -274,7 +275,9 @@ resource "aws_security_group" "role-service_elb_sg" {
 
 resource "aws_lb" "role-service_elb" {
   name               = "role-service-elb-tf"
-  load_balancer_type = "role-servicelication"
+
+  load_balancer_type = "application"
+
   internal           = true
   security_groups    = [aws_security_group.role-service_elb_sg.id]
   subnets            = [var.private_subnets_id[0], var.private_subnets_id[1]]
@@ -313,4 +316,6 @@ resource "aws_lb_listener" "role-service_listener_443" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.role-service_lb_tg.arn  # 트래픽을 내부 타겟 그룹으로 포워딩
   }
+
 }
+

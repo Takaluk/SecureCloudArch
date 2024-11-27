@@ -1,5 +1,5 @@
-resource "aws_db_instance" "carbon-emission-db" {
-  identifier     = "${var.env_name}-carbon-emission-db-instance"
+resource "aws_db_instance" "role-db" {
+  identifier     = "${var.env_name}-role-db-instance"
   engine                 = "mariadb"
   engine_version         = "10.11"
   instance_class         = "db.t3.micro"

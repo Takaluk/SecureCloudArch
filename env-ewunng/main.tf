@@ -80,9 +80,23 @@ module "app_user_rds" {
 }
 
 data "aws_secretsmanager_secret" "db_credentials" {
-  name        = "db-credentials"
+  name = "db-credentials"
 }
 
 data "aws_secretsmanager_secret_version" "db_credentials_version" {
   secret_id = data.aws_secretsmanager_secret.db_credentials.id
+}
+
+module "ewunng_elb" {
+  source             = "../elb"
+  vpc_id             = module.ewunng_vpc.vpc_id
+  public_subnets_id  = module.ewunng_vpc.public_subnets_id
+  web11_ec2_id       = module.ewunng_ec2.web11_ec2_id
+  web31_ec2_id       = module.ewunng_ec2.web31_ec2_id
+  private_subnets_id = module.ewunng_vpc.private_subnets_id
+  app12_ec2_id       = module.ewunng_ec2.app12_ec2_id
+  app32_ec2_id       = module.ewunng_ec2.app32_ec2_id
+  app13_ec2_id       = module.ewunng_ec2.app13_ec2_id
+  app33_ec2_id       = module.ewunng_ec2.app33_ec2_id
+  web_sg_id          = module.ewunng_sg.web_sg_id
 }
