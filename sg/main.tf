@@ -83,7 +83,68 @@ module "app_sg" {
 
   ingress_with_cidr_blocks = [
     {
+      from_port   = 8080
+      to_port     = 8080
+      protocol    = "tcp"
+      cidr_blocks = "0.0.0.0/0"
+    },
+    {
       rule        = "ssh-tcp"
+      cidr_blocks = "0.0.0.0/0"
+    }
+  ]
+  egress_with_cidr_blocks = [
+    {
+      rule        = "all-all"
+      cidr_blocks = "0.0.0.0/0"
+    }
+  ]
+  use_name_prefix = false # 이름이 자동으로 변경되지 않도록
+}
+
+module "efs_sg" {
+  source = "terraform-aws-modules/security-group/aws"
+
+  name        = "efs-sg"
+  description = "Security group for EFS(Elastic File System)"
+  vpc_id      = var.vpc_id
+
+  ingress_with_cidr_blocks = [
+    {
+      rule        = "ssh-tcp"
+      cidr_blocks = "0.0.0.0/0"
+    },
+    {
+      rule        = "all-icmp"
+      cidr_blocks = "0.0.0.0/0"
+    }
+  ]
+  egress_with_cidr_blocks = [
+    {
+      rule        = "all-all"
+      cidr_blocks = "0.0.0.0/0"
+    }
+  ]
+  use_name_prefix = false # 이름이 자동으로 변경되지 않도록
+}
+
+module "db_sg" {
+  source = "terraform-aws-modules/security-group/aws"
+
+  name        = "db-sg"
+  description = "db-sg"
+  
+  vpc_id      = var.vpc_id
+
+  ingress_with_cidr_blocks = [
+    {
+      rule        = "ssh-tcp"
+      cidr_blocks = "0.0.0.0/0"
+    },
+    {
+      from_port   = 3306
+      to_port     = 3306
+      rule    = "ssh-tcp"
       cidr_blocks = "0.0.0.0/0"
     }
   ]

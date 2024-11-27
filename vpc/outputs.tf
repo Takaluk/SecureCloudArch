@@ -7,3 +7,6 @@ output "public_subnets_id" {
 output "private_subnets_id" {
   value = module.vpc.private_subnets
 }
+output "env_name" {
+  value = var.env_name
+}
