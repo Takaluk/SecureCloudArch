@@ -158,10 +158,17 @@ resource "aws_security_group" "auth-service_elb_sg" {
   vpc_id      = var.vpc_id
 
   ingress {
-    from_port   = 8080
-    to_port     = 8080
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
-    security_groups = [var.web_sg_id] # webserver의 접근만 허용
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -255,10 +262,17 @@ resource "aws_security_group" "role-service_elb_sg" {
   vpc_id      = var.vpc_id
 
   ingress {
-    from_port   = 8080
-    to_port     = 8080
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
-    security_groups = [var.web_sg_id] # webserver의 접근만 허용
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {

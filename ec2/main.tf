@@ -31,12 +31,12 @@ module "nat_instance" {
   }
 }
 
-module "web_instance" {
+module "user_web_instance" {
   source = "terraform-aws-modules/ec2-instance/aws"
 
   name                        = "user-management-web-instance"
 
-  ami                         = "ami-0fb3f8bb7e2b27830"
+  ami                         = "ami-0fbb85b0056aa7450"
 
   instance_type               = "t2.micro"
   key_name                    = "Web-Key"
@@ -54,7 +54,7 @@ module "auth_service_instance" {
   source = "terraform-aws-modules/ec2-instance/aws"
 
   name                        = "auth-service-instance"
-  ami                         = "ami-01f16b483e1b41448"
+  ami                         = "ami-03ef410483b96b997"
   instance_type               = "t2.micro"
   key_name                    = "App-Key"
   monitoring                  = true
@@ -63,7 +63,7 @@ module "auth_service_instance" {
   subnet_id                   = var.private_subnets_id[count.index + 2]
   associate_public_ip_address = true
   tags = {
-    Name = "app-instance"
+    Name = "auth-service-instance"
   }
 }
 
@@ -72,7 +72,7 @@ module "role_service_instance" {
   source = "terraform-aws-modules/ec2-instance/aws"
 
   name                        = "role-service-instance"
-  ami                         = "ami-01f16b483e1b41448"
+  ami                         = "ami-0f05c8f51eca896ab"
   instance_type               = "t2.micro"
   key_name                    = "App-Key"
   monitoring                  = true
@@ -82,6 +82,43 @@ module "role_service_instance" {
   subnet_id                   = var.private_subnets_id[count.index + 4]
   associate_public_ip_address = true
   tags = {
-    Name = "app-instance"
+    Name = "role-service-app-instance"
+  }
+}
+
+module "partner_web_instance" {
+  source = "terraform-aws-modules/ec2-instance/aws"
+
+  name                        = "partner-management-web-instance"
+
+  ami                         = "ami-040032b612fa7e4b7"
+
+  instance_type               = "t2.micro"
+  key_name                    = "Web-Key"
+  monitoring                  = true
+  vpc_security_group_ids      = [var.web_sg_id]
+  count                       = 2
+  subnet_id                   = var.private_subnets_id[count.index + 6]
+  associate_public_ip_address = true
+  tags = {
+    Name = "partner-management-web-instance"
+  }
+}
+
+module "carbon_service_instance" {
+  source = "terraform-aws-modules/ec2-instance/aws"
+
+  name                        = "carbon-service-instance"
+  ami                         = "ami-0f05c8f51eca896ab"
+  instance_type               = "t2.micro"
+  key_name                    = "App-Key"
+  monitoring                  = true
+  vpc_security_group_ids      = [var.app_sg_id]
+  count                       = 2
+
+  subnet_id                   = var.private_subnets_id[count.index + 8]
+  associate_public_ip_address = true
+  tags = {
+    Name = "carbon-service-instance"
   }
 }
