@@ -44,8 +44,9 @@ module "yeji_elb" {
   private_subnets_id = module.yeji_vpc.private_subnets_id
   app12_ec2_id       = module.yeji_ec2.app12_ec2_id
   app32_ec2_id       = module.yeji_ec2.app32_ec2_id
-
-  web_sg_id = module.yeji_sg.web_sg_id
+  app13_ec2_id       = module.yeji_ec2.app13_ec2_id
+  app33_ec2_id       = module.yeji_ec2.app33_ec2_id
+  web_sg_id          = module.yeji_sg.web_sg_id
 }
 
 module "yeji_efs" {

@@ -37,15 +37,17 @@ module "yunju_ec2" {
 
 # elb 모듈 선언
 module "yunju_elb" {
-  source             = "../elb"                            # elb 모듈 경로
-  vpc_id             = module.yunju_vpc.vpc_id             # VPC ID 전달
-  public_subnets_id  = module.yunju_vpc.public_subnets_id  # 퍼블릭 서브넷 ID 목록 전달
-  private_subnets_id = module.yunju_vpc.private_subnets_id # 프라이빗 서브넷 ID 목록 전달
-  web11_ec2_id       = module.yunju_ec2.web11_ec2_id       # Web 11번 EC2 ID
-  web31_ec2_id       = module.yunju_ec2.web31_ec2_id       # Web 31번 EC2 ID
-  app12_ec2_id       = module.yunju_ec2.app12_ec2_id       # App 12번 EC2 ID
-  app32_ec2_id       = module.yunju_ec2.app32_ec2_id       # App 32번 EC2 ID
-  web_sg_id          = module.yunju_sg.web_sg_id           # Web 보안 그룹 ID
+  source             = "../elb"
+  vpc_id             = module.yunju_vpc.vpc_id
+  public_subnets_id  = module.yunju_vpc.public_subnets_id
+  web11_ec2_id       = module.yunju_ec2.web11_ec2_id
+  web31_ec2_id       = module.yunju_ec2.web31_ec2_id
+  private_subnets_id = module.yunju_vpc.private_subnets_id
+  app12_ec2_id       = module.yunju_ec2.app12_ec2_id
+  app32_ec2_id       = module.yunju_ec2.app32_ec2_id
+  app13_ec2_id       = module.yunju_ec2.app13_ec2_id
+  app33_ec2_id       = module.yunju_ec2.app33_ec2_id
+  web_sg_id          = module.yunju_sg.web_sg_id
 }
 
 
