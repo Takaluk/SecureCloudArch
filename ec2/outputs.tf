@@ -1,3 +1,4 @@
+
 output "nat_primary_network_interface_id" {
   value = module.nat_instance.primary_network_interface_id
 }
@@ -22,3 +23,4 @@ output "app13_ec2_id"{
 output "app33_ec2_id" {
   value = module.role_service_instance[1].id
 }
+

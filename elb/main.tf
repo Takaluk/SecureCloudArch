@@ -136,7 +136,7 @@ resource "aws_lb_target_group" "auth-service_lb_tg" {
   }
 
   health_check {
-    path    = "/healthcheck"
+    path    = "/api/auth/healthcheck"
     matcher = "200"
   }
 }
@@ -232,7 +232,8 @@ resource "aws_lb_target_group" "role-service_lb_tg" {
   }
 
   health_check {
-    path    = "/healthcheck"
+    path    = "/api/roles/healthcheck"
+
     matcher = "200"
   }
 }
